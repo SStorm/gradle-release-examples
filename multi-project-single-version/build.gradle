@@ -17,6 +17,18 @@ allprojects {
 
 release {
     tagTemplate = '$name-$version'
+    buildTasks = ['releaseBuild']
+}
+
+task releaseBuild {
+    dependsOn(
+            'subproject1:clean',
+            'subproject1:build',
+            'subproject1:publish',
+            'subproject2:clean',
+            'subproject2:build',
+            'subproject2:publish'
+    )
 }
 
 task(startmessage) << {
