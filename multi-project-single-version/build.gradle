@@ -15,18 +15,19 @@ allprojects {
     }
 }
 
+project(':subproject1') {
+    dependencies {
+        compile project(':subproject2')
+    }
+}
+
 release {
     tagTemplate = '$name-$version'
     buildTasks = ['releaseBuild']
 }
 
 task releaseBuild {
-    dependsOn(
-            'subproject1:clean',
-            'subproject1:build',
-            'subproject2:clean',
-            'subproject2:build',
-    )
+    dependsOn subprojects.findResults { it.tasks.findByName('build') }
 }
 
 task(startmessage) << {
